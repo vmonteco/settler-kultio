@@ -1,0 +1,37 @@
+---
+- name: create base directory
+  file:
+    name: "{{ base_dir }}"
+    state: directory
+
+# - name: create nginx conf directory
+#   file:
+#     name: "{{ nginx_conf_dir }}"
+#     state: directory
+
+# - name: root nginx configuration
+#   template:
+#     src: root_nginx.conf.template
+#     dest: "{{ base_directory }}/{{ project_name }}.conf"
+#   register: nginx_root_conf_changed
+
+# - name: linking to nginx conf
+#   file:
+#     src: "{{ base_directory }}/{{ project_name }}.conf"
+#     dest: "{{ nginx_vhosts_dir }}/{{ project_name }}.conf"
+#     state: link
+  
+# - name: create nginx conf dir1ectory
+#   file:
+#     name: "{{ nginx_conf_dir }}"
+#     state: directory
+  
+# - name: restart nginx
+#   service:
+#     name: nginx
+#     state: restarted
+  
+# - name: Creating the directory to store instances
+#   file:
+#     name: "{{ instances_dir }}"
+#     state: directory

@@ -1,0 +1,25 @@
+---
+- name: create proxy directory
+  file:
+    name: "{{ base_dir }}/proxy"
+    state: directory
+
+- name: create vhosts dir
+  file:
+    name: "{{ vhosts_dir }}"
+    state: directory
+    
+- name: create .conf for host nginx proxy
+  template:
+    src: host_proxy.conf.template
+    dest: "{{ proxy_dir }}/{{ project_name }}.conf"
+
+- name: create log directory for project proxy.
+  file:
+    name: "{{ proxy_dir }}/logs"
+    state: directory
+  
+- name: create docker-compose for project proxy
+  template:
+    src: docker-compose.yml.template
+    dest: "{{ proxy_dir }}/docker-compose.yml"

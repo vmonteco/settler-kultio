@@ -1,0 +1,62 @@
+---
+- name: deploy dev
+  hosts:
+    - all
+  vars_files:
+    - global_vars.yml
+    # - vault.yml
+    # - dev.yml
+  roles:
+    - base_dir
+    - proxy
+    #- deploy
+    
+# - name: deploy preprod
+#   hosts: all
+#   vars_files:
+#     - global_vars.yml
+#     - preprod_vars.yml
+#     - vault_vars.yml
+#   roles:
+#     - dependencies
+#     # - user_creation
+#     # - deploy
+  
+# - name: deploy prod
+#   hosts: all
+#     - global_vars.yml
+#     - prod_vars.yml
+#     - vault_vars.yml
+#   roles:
+#     - dependencies
+#     # - user_creation
+#     # - deploy
+    
+# - name: backup prod
+#   hosts: all
+#   vars_files:
+#     - global_vars.yml
+#     - backup_vars.yml
+#     - vault_vars.yml
+#   roles:
+#     - dependencies
+#     # - user_creation
+#     # - backup
+  
+  
+# - hosts: all
+#   vars_files:
+#     - vars.yml
+#     - pwd.yml
+    
+#   tasks:
+    
+#   - name: make base dir
+#     copy:
+#       directory_mode: true
+#       src: project_template/
+#       dest: "/home/{{ deployer_user }}/{{ project_name }}"
+#       owner: "{{ deployer_user }}"
+#       group: "users"
+#       directory_mode: 0700
+

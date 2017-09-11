@@ -1,0 +1,10 @@
+---
+domain_name: kultio.com
+nginx_socket: "/tmp/{{ project_name }}.sock"
+path_to_certificates: /etc/nginx/certs
+contact_mail: info@kultio.com
+domains:
+  - kultio.com
+  - proto.kultio.com
+  - dev.kultio.com
+  - preprod.kultio.com

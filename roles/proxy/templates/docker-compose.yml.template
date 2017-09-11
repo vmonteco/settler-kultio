@@ -1,0 +1,12 @@
+version: "3"
+services:
+  nginx:
+    image: nginx
+    volumes:
+      - ./server/:/etc/nginx/conf.d/
+      - ./log:/var/log
+      - /tmp/:/tmp/
+    environment:
+      - LETSENCRYPT_HOST={% for dn in domains %}{{ dn }} {% endfor %}
+      - LETSENCRYPT_EMAIL={{ contact_mail }}
+
