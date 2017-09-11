@@ -1,7 +1,7 @@
 ---
 - name: create proxy directory
   file:
-    name: "{{ base_dir }}/proxy"
+    name: "{{ proxy_dir }}"
     state: directory
 
 - name: create vhosts dir
@@ -18,8 +18,39 @@
   file:
     name: "{{ proxy_dir }}/logs"
     state: directory
-  
+
+- name: retrieving user uid
+  shell: "id -u {{ deployer_user }}"
+  register: user_uid
+
+- name: retrieving user gid
+  shell: "id -g {{ deployer_user }}"
+  register: user_gid
+    
+- name: create Dockerfile for project proxy
+  template:
+    src: Dockerfile.template
+    dest: "{{ proxy_dir }}/Dockerfile"
+    
 - name: create docker-compose for project proxy
   template:
     src: docker-compose.yml.template
     dest: "{{ proxy_dir }}/docker-compose.yml"
+    
+- name: build proxy
+  shell:
+    docker-compose build
+  args:
+    chdir: "{{ proxy_dir }}"
+
+- name: shutting down proxy
+  shell:
+    docker-compose down
+  args:
+    chdir: "{{ proxy_dir }}"
+
+- name: start proxy
+  shell:
+    docker-compose up -d
+  args:
+    chdir: "{{ proxy_dir }}"

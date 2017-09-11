@@ -1,0 +1,11 @@
+FROM nginx
+
+RUN groupadd -g {{ user_gid.stdout }} {{ deployer_user }}
+RUN useradd -u {{ user_uid.stdout }} -g {{ deployer_user }} {{ deployer_user }}
+RUN mkdir /etc/nginx/nginx_vhosts
+RUN  sed -i '/user  nginx;/c\user  {{ deployer_user }} {{ deployer_user }};' /etc/nginx/nginx.conf
+ADD vhosts /etc/nginx/nginx_vhosts
+
+
+VOLUME /var/log/proxy_logs
+VOLUME /tmp

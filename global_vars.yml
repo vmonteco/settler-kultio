@@ -3,6 +3,6 @@ project_name: kultio
 deployer_user: kultio
 home: "/home/{{ deployer_user }}"
 base_dir: "{{ home }}/{{ project_name }}"
-proxy_dir: "{{ base_dir }}/proxy"
+proxy_dir: "{{ base_dir }}/{{ project_name }}_proxy"
 vhosts_dir: "{{ proxy_dir }}/vhosts"
 instances_dir: "{{ base_directory }}/instances"
