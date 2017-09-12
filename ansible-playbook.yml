@@ -9,7 +9,7 @@
   roles:
     - base_dir
     - proxy
-    #- deploy
+    - deploy
     
 # - name: deploy preprod
 #   hosts: all

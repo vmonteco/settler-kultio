@@ -1,0 +1,5 @@
+---
+- name: create instances directory
+  file:
+    name: "{{ base_dir }}/instances"
+    state: directory
