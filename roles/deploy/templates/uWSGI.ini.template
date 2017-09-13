@@ -1,0 +1,13 @@
+[uwsgi]
+
+# Django related settings :
+chdir = {{ wsgi_root }}
+module = {{ project_name }}.wsgi
+
+# Process related settings :
+master = true
+processes = 1
+socket = /tmp/{{ domain }}-wsgi.sock
+vacuum = true
+
+daemonize = {{ wsgi_log_dir }}/uWSGI.log

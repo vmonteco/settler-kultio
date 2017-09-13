@@ -1,0 +1,19 @@
+from .settings import *
+
+DEBUG=False
+
+AUTHORIZED_HOSTS = [
+    {{ domain }},
+]
+
+DATABASES = {
+    DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': '{{ project_name }}',
+        'USER': '{{ project_name }}',
+        'PASSWORD': '{{ project_name }}pwd',
+        'HOST': 'db',
+        'PORT': '5432',
+    }
+}

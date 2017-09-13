@@ -1,5 +1,36 @@
 ---
-- name: create instances directory
+- name: create instances directories
   file:
-    name: "{{ base_dir }}/instances"
+    name: "{{ item }}"
     state: directory
+  with_items:
+    - "{{ base_dir }}/instances"
+    - "{{ base_dir }}/instances/{{ project_name }}_{{ instance_name }}"
+    - "{{ base_dir }}/instances/{{ project_name }}_{{ instance_name }}/volumes"
+    - "{{ base_dir }}/instances/{{ project_name }}_{{ instance_name }}/volumes/logs"
+    - "{{ base_dir }}/instances/{{ project_name }}_{{ instance_name }}/volumes/server"
+    - "{{ base_dir }}/instances/{{ project_name }}_{{ instance_name }}/volumes/db"
+    - "{{ base_dir }}/instances/{{ project_name }}_{{ instance_name }}/volumes/media"
+    
+- name: create docker-compose file
+  template:
+    src: docker-compose.yml.template
+    dest: "{{ base_dir }}/instances/{{ project_name }}_{{ instance_name }}/docker-compose.yml"
+
+- name: retrieve sources
+  git:
+    clone: yes
+    repo: "{{ repo }}"
+    dest: "{{ base_dir }}/instances/{{ project_name }}_{{ instance_name }}/src"
+
+- name: retrieve wsgi dockerfile
+  template:
+    src: Dockerfile-wsgi.template
+    dest: "{{ base_dir }}/instances/{{ project_name }}_{{ instance_name }}/Dockerfile-wsgi"
+
+- name: retrieve nginx dockerfile
+  template:
+    src: Dockerfile-nginx.template
+    dest: "{{ base_dir }}/instances/{{ project_name }}_{{ instance_name }}/Dockerfile-nginx"
+
+    

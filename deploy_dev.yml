@@ -1,0 +1,5 @@
+---
+src_subdir: "{{ project_name }}"
+instance_name: dev
+debug: true
+src_as_vol: true

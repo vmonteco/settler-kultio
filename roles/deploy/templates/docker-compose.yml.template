@@ -1,0 +1,28 @@
+version: "3"
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./volumes/db:/var/lib/postgresql/data
+    environment:
+      - POSTRES_USER: {{ project_name }}
+      - POSTGRES_PASSWORD: {{ project_name }}pwd
+      - POSTGRES_DB: {{ project_name }}
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile-nginx
+    volumes:
+      - staticfiles:{{ nginx_root }}/staticfiles
+      - mediafiles:{{ nginx_root }}mediafiles
+      - /tmp/:/tmp/
+  wsgi:
+    build:
+      context: .
+      dockerfile: Dockerfile-wsgi
+    volumes:
+      {% if src_as_vol %}- ./src/{{ src_subdir }}:/{% endif %}
+      - staticfiles:app/staticfiles
+      - mediafiles:app/mediafiles
+      - /tmp/:/tmp/
+

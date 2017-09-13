@@ -1,0 +1,34 @@
+upstream {{ project_name }}_{{ instance_name }}_socket {
+	server unix:///tmp/{{ domain }}.sock;
+}
+
+upstream {{ project_name }}_{{ instance_name }}_wsgi_socket {
+	server unix:///tmp/{{ domain }}-wsgi.sock;
+}
+
+server {
+	   listen			{{ project_name }}_{{ instance_name }}_socket;
+	   server_name		{{ domain }};
+	   charset			utf-8;
+
+	   root {{ root }};
+
+	   set $myroot		$document_root;
+
+	   location /media {
+	   			alias $myroot/mediafiles;
+	   }
+
+	   location /static {
+	   			alias $myroot/staticfiles;
+	   }
+
+	   location / {
+	   			proxy_pass			http://{{ project_name }}_{{ instance_name }}_wsgi_socket;
+				include				uwsgi_params;
+				proxy_set_header	X-Forwarded-Host $server_name;
+				proxy_set_header	X-Real-IP $remote_addr;
+				add_header P3P 'CP="ALL DSP COR PSAa PSDa OUR NOR ONL UNI COM NAV"';
+				proxy_set_header Host $http_host;
+	   }
+}

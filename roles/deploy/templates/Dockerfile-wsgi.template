@@ -1,0 +1,8 @@
+FROM python:3.6
+
+ADD requirements.txt /
+RUN pip install uwsgi
+RUN pip install -r /requirements.txt && rm /requirements.txt
+{% if src_as_vol %}
+ADD src/{{ src_subdir }} /app
+{% endif %}
