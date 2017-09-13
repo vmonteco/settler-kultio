@@ -33,4 +33,41 @@
     src: Dockerfile-nginx.template
     dest: "{{ base_dir }}/instances/{{ project_name }}_{{ instance_name }}/Dockerfile-nginx"
 
-    
+- name: render nginx instance proxy
+  template:
+    src: nginx.conf.template
+    dest: "{{ base_dir }}/instances/{{ project_name }}_{{ instance_name }}/volumes/server/{{ domain }}.conf"
+
+- name: render nginx.conf for project proxy
+  template:
+    src: domain_nginx.conf.template
+    dest: "{{ base_dir }}/instances/{{ project_name }}_{{ instance_name }}/{{ domain }}.conf"
+  
+- name: add deploy_settings.py
+  template:
+    src: deploy_settings.py.template
+    dest: "{{ base_dir }}/instances/{{ project_name }}_{{ instance_name }}/src/{{ src_subdir }}/{{ project_name }}/deploy_settings.py"
+
+- name: add deploy_wsgi.py
+  template:
+    src: deploy_wsgi.py.template
+    dest: "{{ base_dir }}/instances/{{ project_name }}_{{ instance_name }}/src/{{ src_subdir }}/{{ project_name }}/deploy_wsgi.py"
+
+- name: render uWSGI.ini
+  template:
+    src: uWSGI.ini.template
+    dest: "{{ base_dir }}/instances/{{ project_name }}_{{ instance_name }}/uWSGI.ini"
+      
+- name: deploy
+  shell:
+    docker-compose up --build -d
+  args:
+    chdir: "{{ base_dir }}/instances/{{ project_name }}_{{ instance_name }}"
+
+- name: add nginx conf to proxy sites
+  shell: "cp {{ base_dir }}/instances/{{ project_name }}_{{ instance_name }}/{{ domain }}.conf {{ base_dir }}/{{ project_name }}_proxy/vhosts/{{ domain }}.conf"
+
+- name: restart proxy
+  shell: "docker-compose up --build -d"
+  args:
+    chdir: "{{ base_dir }}/{{ project_name }}_proxy"

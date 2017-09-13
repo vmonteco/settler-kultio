@@ -4,7 +4,6 @@ services:
     build:
       context: .
     volumes:
-      - ./server/:/etc/nginx/conf.d/
       - ./logs:/var/log/nginx
       - /tmp/:/tmp/
     environment:

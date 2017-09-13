@@ -1,8 +1,13 @@
 FROM python:3.6
 
-ADD requirements.txt /
-RUN pip install uwsgi
-RUN pip install -r /requirements.txt && rm /requirements.txt
+RUN groupadd -g {{ user_gid.stdout }} {{ deployer_user }}
+RUN useradd -u {{ user_uid.stdout }} -g {{ deployer_user }} {{ deployer_user }}
+ADD src/requirements.txt /
+RUN pip install uwsgi && pip install -r /requirements.txt && rm /requirements.txt && mkdir {{ wsgi_log_dir }}
+RUN mkdir /var/log/wsgi || true
+RUN chown -Rv kultio:kultio /var/log/wsgi
+USER {{ deployer_user }}
 {% if src_as_vol %}
 ADD src/{{ src_subdir }} /app
 {% endif %}
+ADD uWSGI.ini /

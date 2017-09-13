@@ -1,3 +1,4 @@
+
 version: "3"
 services:
   db:
@@ -5,24 +6,31 @@ services:
     volumes:
       - ./volumes/db:/var/lib/postgresql/data
     environment:
-      - POSTRES_USER: {{ project_name }}
-      - POSTGRES_PASSWORD: {{ project_name }}pwd
-      - POSTGRES_DB: {{ project_name }}
+      - POSTRES_USER="{{ project_name }}"
+      - POSTGRES_PASSWORD="{{ project_name }}_pwd"
+      - POSTGRES_DB="{{ project_name }}"
   nginx:
     build:
       context: .
       dockerfile: Dockerfile-nginx
     volumes:
       - staticfiles:{{ nginx_root }}/staticfiles
-      - mediafiles:{{ nginx_root }}mediafiles
+      - mediafiles:{{ nginx_root }}/mediafiles
+      - ./volumes/server:/etc/nginx/conf.d
+      - ./volumes/logs:/var/log/nginx
       - /tmp/:/tmp/
   wsgi:
     build:
       context: .
       dockerfile: Dockerfile-wsgi
     volumes:
-      {% if src_as_vol %}- ./src/{{ src_subdir }}:/{% endif %}
-      - staticfiles:app/staticfiles
-      - mediafiles:app/mediafiles
+      {% if src_as_vol %}- ./src/{{ src_subdir }}:{{ wsgi_root }}{% endif %} 
+      - staticfiles:{{ wsgi_root }}/staticfiles
+      - mediafiles:{{ wsgi_root }}/mediafiles
+      - ./volumes/logs:/var/log/wsgi
       - /tmp/:/tmp/
+    command: uwsgi --ini /uWSGI.ini
 
+volumes:
+  staticfiles:
+  mediafiles:

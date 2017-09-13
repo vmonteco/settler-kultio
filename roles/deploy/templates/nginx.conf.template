@@ -1,17 +1,13 @@
-upstream {{ project_name }}_{{ instance_name }}_socket {
-	server unix:///tmp/{{ domain }}.sock;
-}
-
-upstream {{ project_name }}_{{ instance_name }}_wsgi_socket {
-	server unix:///tmp/{{ domain }}-wsgi.sock;
-}
+# upstream {{ project_name }}_{{ instance_name }}_wsgi_socket {
+# 	server unix:///tmp/{{ domain }}-wsgi.sock;
+# }
 
 server {
-	   listen			{{ project_name }}_{{ instance_name }}_socket;
+	   listen			unix:/tmp/{{ domain }}.sock;
 	   server_name		{{ domain }};
 	   charset			utf-8;
 
-	   root {{ root }};
+	   root {{ nginx_root }};
 
 	   set $myroot		$document_root;
 
@@ -24,11 +20,20 @@ server {
 	   }
 
 	   location / {
-	   			proxy_pass			http://{{ project_name }}_{{ instance_name }}_wsgi_socket;
-				include				uwsgi_params;
-				proxy_set_header	X-Forwarded-Host $server_name;
-				proxy_set_header	X-Real-IP $remote_addr;
-				add_header P3P 'CP="ALL DSP COR PSAa PSDa OUR NOR ONL UNI COM NAV"';
-				proxy_set_header Host $http_host;
+	   	   uwsgi_pass			unix:///tmp/{{ domain }}-wsgi.sock;#{{ project_name }}_{{ instance_name }}_wsgi_socket;
+	   	   include				uwsgi_params;
+	   			# proxy_set_header	X-Forwarded-Host $server_name;
+	   			# proxy_set_header	X-Real-IP $remote_addr;
+	   			# add_header P3P 'CP="ALL DSP COR PSAa PSDa OUR NOR ONL UNI COM NAV"';
+	   			# proxy_set_header Host $http_host;
 	   }
+
+	   # location / {
+	   # 			proxy_pass			http://{{ project_name }}_{{ instance_name }}_wsgi_socket;
+	   # 			include				uwsgi_params;
+	   # 			proxy_set_header	X-Forwarded-Host $server_name;
+	   # 			proxy_set_header	X-Real-IP $remote_addr;
+	   # 			add_header P3P 'CP="ALL DSP COR PSAa PSDa OUR NOR ONL UNI COM NAV"';
+	   # 			proxy_set_header Host $http_host;
+	   # }
 }

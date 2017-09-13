@@ -37,20 +37,8 @@
     src: docker-compose.yml.template
     dest: "{{ proxy_dir }}/docker-compose.yml"
     
-- name: build proxy
-  shell:
-    docker-compose build
-  args:
-    chdir: "{{ proxy_dir }}"
-
-- name: shutting down proxy
-  shell:
-    docker-compose down
-  args:
-    chdir: "{{ proxy_dir }}"
-
 - name: start proxy
   shell:
-    docker-compose up -d
+    docker-compose up --build -d
   args:
     chdir: "{{ proxy_dir }}"

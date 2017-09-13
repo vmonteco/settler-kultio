@@ -1,0 +1,16 @@
+upstream {{ project_name }}_{{ instance_name }}_socket {
+    server          unix:///tmp/{{ domain }}.sock;
+}
+
+server {
+	   listen unix:/tmp/{{ project_name }}.sock;
+
+	   server_name {{ domain }};
+	   location / {
+           proxy_pass                  http://{{ project_name }}_{{ instance_name }}_socket;
+           proxy_set_header            X-Forwarded-Host $server_name;
+           proxy_set_header            X-Real-IP $remote_addr;
+           add_header                  P3P 'CP="ALL DSP COR PSAa PSDa OUR NOR ONL UNI COM NAV"';
+           proxy_set_header            Host $http_host;
+       }
+}

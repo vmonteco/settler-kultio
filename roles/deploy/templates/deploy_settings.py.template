@@ -1,13 +1,12 @@
 from .settings import *
 
-DEBUG=False
+DEBUG=True
 
 AUTHORIZED_HOSTS = [
-    {{ domain }},
+    "{{ domain }}",
 ]
 
 DATABASES = {
-    DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': '{{ project_name }}',

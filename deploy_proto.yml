@@ -1,8 +1,8 @@
 ---
 src_subdir: "{{ project_name }}"
-instance_name: dev
+instance_name: proto
 debug: true
 src_as_vol: true
-domain: dev.kultio.com
+domain: proto.kultio.com
 wsgi_root: /app
 wsgi_log_dir: /var/log/wsgi
