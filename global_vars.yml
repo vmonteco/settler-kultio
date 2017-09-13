@@ -8,4 +8,4 @@ vhosts_dir: "{{ proxy_dir }}/vhosts"
 instances_dir: "{{ base_directory }}/instances"
 repo: git@github.com:rpatillo/TestK.git
 
-nginx_root: /srv/
+nginx_root: /srv/nginx

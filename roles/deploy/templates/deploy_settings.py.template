@@ -6,13 +6,19 @@ ALLOWED_HOSTS = [
     "{{ domain }}",
 ]
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': '{{ project_name }}',
-        'USER': '{{ project_name }}',
-        'PASSWORD': '{{ project_name }}pwd',
-        'HOST': 'db',
-        'PORT': '5432',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': '{{ project_name }}',
+#         'USER': '{{ project_name }}',
+#         'PASSWORD': '{{ project_name }}pwd',
+#         'HOST': 'db',
+#         'PORT': '5432',
+#     }
+# }
+
+EMAIL_HOST = '{{ smtp_server }}'
+EMAIL_PORT = {{ smtp_port }}
+EMAIL_HOST_PASSWORD = '{{ smtp_password }}'
+EMAIL_HOST_USER = '{{ smtp_user }}'
+EMAIL_USE_TLS = {{ smtp_use_tls }}

@@ -11,6 +11,7 @@
     - "{{ base_dir }}/instances/{{ project_name }}_{{ instance_name }}/volumes/server"
     - "{{ base_dir }}/instances/{{ project_name }}_{{ instance_name }}/volumes/db"
     - "{{ base_dir }}/instances/{{ project_name }}_{{ instance_name }}/volumes/media"
+    - "{{ base_dir }}/instances/{{ project_name }}_{{ instance_name }}/volumes/static"
     
 - name: create docker-compose file
   template:
@@ -57,16 +58,25 @@
   template:
     src: uWSGI.ini.template
     dest: "{{ base_dir }}/instances/{{ project_name }}_{{ instance_name }}/uWSGI.ini"
-      
+
+- name: start db
+  shell:
+    docker-compose up -d --build db
+  args:
+    chdir: "{{ base_dir }}/instances/{{ project_name }}_{{ instance_name }}"
+
+- name: wait
+  shell: sleep 10
+  
 - name: deploy
   shell:
-    docker-compose up --build -d
+    docker-compose up -d --build wsgi nginx
   args:
     chdir: "{{ base_dir }}/instances/{{ project_name }}_{{ instance_name }}"
 
 - name: add nginx conf to proxy sites
   shell: "cp {{ base_dir }}/instances/{{ project_name }}_{{ instance_name }}/{{ domain }}.conf {{ base_dir }}/{{ project_name }}_proxy/vhosts/{{ domain }}.conf"
-
+  
 - name: restart proxy
   shell: "docker-compose up --build -d"
   args:

@@ -3,19 +3,18 @@ version: "3"
 services:
   db:
     image: postgres
-    volumes:
-      - ./volumes/db:/var/lib/postgresql/data
+    # volumes:
+    #   - ./volumes/db:/var/lib/postgresql/data
     environment:
-      - POSTRES_USER="{{ project_name }}"
-      - POSTGRES_PASSWORD="{{ project_name }}_pwd"
-      - POSTGRES_DB="{{ project_name }}"
+      POSTGRES_USER: {{ project_name }}
+      POSTGRES_PASSWORD: {{ project_name }}pwd
   nginx:
     build:
       context: .
       dockerfile: Dockerfile-nginx
     volumes:
-      - staticfiles:{{ nginx_root }}/staticfiles
-      - mediafiles:{{ nginx_root }}/mediafiles
+      - ./volumes/static:{{ nginx_root }}/staticfiles
+      - ./volumes/media:{{ nginx_root }}/mediafiles
       - ./volumes/server:/etc/nginx/conf.d
       - ./volumes/logs:/var/log/nginx
       - /tmp/:/tmp/
@@ -25,12 +24,16 @@ services:
       dockerfile: Dockerfile-wsgi
     volumes:
       {% if src_as_vol %}- ./src/{{ src_subdir }}:{{ wsgi_root }}{% endif %} 
-      - staticfiles:{{ wsgi_root }}/staticfiles
-      - mediafiles:{{ wsgi_root }}/mediafiles
+      - ./volumes/static:{{ wsgi_root }}/staticfiles
+      - ./volumes/media:{{ wsgi_root }}/mediafiles
       - ./volumes/logs:/var/log/wsgi
       - /tmp/:/tmp/
-    command: uwsgi --ini /uWSGI.ini
+    depends_on:
+      - db
+    links:
+      - db
+    command: sh -c "./manage.py collectstatic --noinput && ./manage.py makemigrations && ./manage.py migrate sites && ./manage.py migrate && uwsgi --ini /uWSGI.ini"
 
-volumes:
-  staticfiles:
-  mediafiles:
+# volumes:
+#   staticfiles:
+#   mediafiles:

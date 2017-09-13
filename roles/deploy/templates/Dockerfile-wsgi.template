@@ -11,3 +11,4 @@ USER {{ deployer_user }}
 ADD src/{{ src_subdir }} /app
 {% endif %}
 ADD uWSGI.ini /
+WORKDIR /app
