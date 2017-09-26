@@ -34,6 +34,11 @@
     src: Dockerfile-nginx.template
     dest: "{{ base_dir }}/instances/{{ project_name }}_{{ instance_name }}/Dockerfile-nginx"
 
+- name: retrieve pastec dockerfile
+  template:
+    src: Dockerfile-pastec.template
+    dest: "{{ base_dir }}/instances/{{ project_name }}_{{ instance_name }}/Dockerfile-pastec"
+    
 - name: render nginx instance proxy
   template:
     src: nginx.conf.template
