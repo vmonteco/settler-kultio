@@ -22,3 +22,8 @@ EMAIL_PORT = {{ smtp_port }}
 EMAIL_HOST_PASSWORD = '{{ smtp_password }}'
 EMAIL_HOST_USER = '{{ smtp_user }}'
 EMAIL_USE_TLS = {{ smtp_use_tls }}
+
+PASTEC_HOST = '{{ pastec_host }}'
+PASTEC_PORT = {{ pastec_port }}
+PASTEC_PROTOCOL = '{{ pastec_protocol }}'
+PASTEC_INDEX_PATH = '{{ pastec_index_path }}'

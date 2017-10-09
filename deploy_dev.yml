@@ -11,3 +11,8 @@ smtp_server: auth.smtp.1and1.fr
 smtp_port: 25
 smtp_user: bot@kultio.com
 smtp_use_tls: True
+
+pastec_host: pastec
+pastec_port: 4212
+pastec_protocol: http
+pastec_index_path: ""
