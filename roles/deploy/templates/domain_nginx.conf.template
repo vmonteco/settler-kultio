@@ -5,6 +5,8 @@ upstream {{ project_name }}_{{ instance_name }}_socket {
 server {
 	   listen unix:/tmp/{{ project_name }}.sock;
 
+	   client_max_body_size {{ max_file_size }};
+
 	   server_name {{ domain }};
 	   location / {
            proxy_pass                  http://{{ project_name }}_{{ instance_name }}_socket;

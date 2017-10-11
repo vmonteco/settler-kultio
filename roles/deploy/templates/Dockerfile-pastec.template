@@ -1,9 +1,10 @@
 FROM debian
 
-RUN apt-get update -y && apt-get install -y libopencv-dev libmicrohttpd-dev libjsoncpp-dev cmake git &&  git clone  https://github.com/Visu4link/pastec.git && mkdir /pastec/build
+RUN apt-get update -y && apt-get install -y libopencv-dev libmicrohttpd-dev libjsoncpp-dev cmake git &&  git clone  https://github.com/Visu4link/pastec.git && mkdir /pastec/build && mkdir /pastec/build/index #&& touch /pastec/build/index/index.dat
 WORKDIR /pastec/build
-ADD http://pastec.io/files/visualWordsORB.tar.gz ./
 RUN cmake ../ && make
 EXPOSE 4212
+ADD http://pastec.io/files/visualWordsORB.tar.gz ./
+RUN tar -xzvf visualWordsORB.tar.gz
 
-CMD ["./pastec", "visualWordsORB.dat"]
+CMD ["./pastec", "-i", "index/index.dat","visualWordsORB.dat"]

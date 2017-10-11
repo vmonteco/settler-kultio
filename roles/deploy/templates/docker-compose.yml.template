@@ -18,6 +18,12 @@ services:
       - ./volumes/server:/etc/nginx/conf.d
       - ./volumes/logs:/var/log/nginx
       - /tmp/:/tmp/
+  pastec:
+    build:
+      context: .
+      dockerfile: Dockerfile-pastec
+    volumes:
+      - ./volumes/pastec:/pastec/build/index
   wsgi:
     build:
       context: .
@@ -30,8 +36,10 @@ services:
       - /tmp/:/tmp/
     depends_on:
       - db
+      - pastec
     links:
       - db
+      - pastec
     command: sh -c "./manage.py collectstatic --noinput && ./manage.py makemigrations && ./manage.py migrate sites && ./manage.py migrate && uwsgi --ini /uWSGI.ini"
 
 # volumes:

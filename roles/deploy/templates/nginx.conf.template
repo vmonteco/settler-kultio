@@ -3,9 +3,12 @@
 # }
 
 server {
+
 	   listen			unix:/tmp/{{ domain }}.sock;
 	   server_name		{{ domain }};
 	   charset			utf-8;
+
+	   client_max_body_size		{{ max_file_size }};
 
 	   root {{ nginx_root }};
 
