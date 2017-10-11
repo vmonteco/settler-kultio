@@ -4,7 +4,8 @@
 
 server {
 
-	   listen			unix:/tmp/{{ domain }}.sock;
+	   #	   listen			unix:/tmp/{{ domain }}.sock;
+	   listen			80;
 	   server_name		{{ domain }};
 	   charset			utf-8;
 
