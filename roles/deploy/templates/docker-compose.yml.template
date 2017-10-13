@@ -18,9 +18,9 @@ services:
       - ./volumes/server:/etc/nginx/conf.d
       - ./volumes/logs:/var/log/nginx
       - /tmp/:/tmp/
-    ports:
-      - "10080:80"
-      - "10443:443"
+    # ports:
+    #   - "10080:80"
+    #   - "10443:443"
   pastec:
     build:
       context: .

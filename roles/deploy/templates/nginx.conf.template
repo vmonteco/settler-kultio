@@ -4,8 +4,8 @@
 
 server {
 
-	   #	   listen			unix:/tmp/{{ domain }}.sock;
-	   listen			80;
+	   listen			unix:/tmp/{{ domain }}.sock;
+	   #listen			80;
 	   server_name		{{ domain }};
 	   charset			utf-8;
 
@@ -26,6 +26,7 @@ server {
 	   location / {
 	   	   uwsgi_pass			unix:///tmp/{{ domain }}-wsgi.sock;#{{ project_name }}_{{ instance_name }}_wsgi_socket;
 	   	   include				uwsgi_params;
+		   client_max_body_size		{{ max_file_size }};
 	   			# proxy_set_header	X-Forwarded-Host $server_name;
 	   			# proxy_set_header	X-Real-IP $remote_addr;
 	   			# add_header P3P 'CP="ALL DSP COR PSAa PSDa OUR NOR ONL UNI COM NAV"';
