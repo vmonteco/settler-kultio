@@ -1,7 +1,7 @@
 ---
 src_subdir: "{{ project_name }}"
 instance_name: proto
-debug: true
+debug: False
 src_as_vol: true
 domain: proto.kultio.com
 wsgi_root: /app
@@ -11,3 +11,5 @@ smtp_server: auth.smtp.1and1.fr
 smtp_port: 25
 smtp_user: bot@kultio.com
 smtp_use_tls: True
+
+max_file_size: 20M

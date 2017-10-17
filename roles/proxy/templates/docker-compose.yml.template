@@ -6,6 +6,7 @@ services:
     volumes:
       - ./logs:/var/log/nginx
       - /tmp/:/tmp/
+      - ./certs:/etc/nginx/certs
     environment:
       - LETSENCRYPT_HOST={% for dn in domains %}{{ dn }} {% endfor %}
       - LETSENCRYPT_EMAIL={{ contact_mail }}

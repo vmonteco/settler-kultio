@@ -19,6 +19,11 @@
     name: "{{ proxy_dir }}/logs"
     state: directory
 
+- name: create certs directory for project proxy.
+  file:
+    name: "{{ proxy_dir }}/certs"
+    state: directory
+
 - name: retrieving user uid
   shell: "id -u {{ deployer_user }}"
   register: user_uid

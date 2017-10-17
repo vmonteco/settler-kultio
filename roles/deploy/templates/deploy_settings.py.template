@@ -1,6 +1,6 @@
 from .settings import *
 
-DEBUG=True
+DEBUG={% if debug %}True{% else %}False{% endif %}
 
 ALLOWED_HOSTS = [
     "{{ domain }}",
