@@ -1,7 +1,7 @@
 ---
 src_subdir: "{{ project_name }}"
 instance_name: proto
-debug: False
+debug: false
 src_as_vol: true
 domain: proto.kultio.com
 wsgi_root: /app
